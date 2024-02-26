@@ -147,3 +147,16 @@ index 20c3b12643e4f87d70aa0df96a36c4dda8b1ed47..5ac24c006b8db0b06d3a48cc312ba630
 +
  //# sourceMappingURL=chunk-JMP6XYRL.js.map
 \ No newline at end of file
+diff --git a/package.json b/package.json
+index 2c945d206d4804745c441e2a5fcf70fc6348e5e7..7d41bf04a1e3801a4a271b20b57e446efd0b8bba 100644
+--- a/package.json
++++ b/package.json
+@@ -9,7 +9,7 @@
+   "sideEffects": false,
+   "exports": {
+     ".": {
+-      "import": "./dist/index.mjs",
++      "import": "./dist/index.js",
+       "require": "./dist/index.js",
+       "types": "./dist/types/index.d.ts"
+     },
