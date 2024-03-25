@@ -207,7 +207,9 @@ function getOptions(
     },
     test: {
       array: false,
-      default: false,
+      // TODO: Dear Reviewer: is this a good idea? seems like it could be surprising
+      // set IN_TEST to true in development mode
+      default: !isProduction,
       description: 'Enables/disables testing mode',
       group: toOrange('Developer assistance:'),
       type: 'boolean',
