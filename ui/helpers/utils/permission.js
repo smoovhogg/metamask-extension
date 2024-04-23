@@ -15,6 +15,7 @@ import {
   RestrictedMethods,
   ///: BEGIN:ONLY_INCLUDE_IF(snaps)
   EndowmentPermissions,
+  ConnectionPermission,
   ///: END:ONLY_INCLUDE_IF
 } from '../../../shared/constants/permissions';
 import Tooltip from '../../components/ui/tooltip';
@@ -33,6 +34,7 @@ import {
   TextColor,
   TextVariant,
 } from '../constants/design-system';
+import { getURLHost } from './util';
 ///: END:ONLY_INCLUDE_IF
 
 const UNKNOWN_PERMISSION = Symbol('unknown');
@@ -546,7 +548,45 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
 
     return result;
   },
+  [ConnectionPermission.connection_permission]: ({
+    t,
+    permissionValue,
+    subjectName,
+  }) => {
+    console.log('-*-*-*-*-*-*-*-*-*-*-*-*-*-');
+    console.log(permissionValue);
+    console.log(subjectName);
+    console.log('-*-*-*-*-*-*-*-*-*-*-*-*-*-');
+    Object.keys(permissionValue);
 
+    return Object.keys(permissionValue).map((connection) => {
+      const urlHost = getURLHost(connection);
+      return {
+        label: t('connectTo', [
+          <Text
+            key="connectToMain"
+            variant={TextVariant.inherit}
+            fontWeight={FontWeight.Medium}
+          >
+            {urlHost}
+          </Text>,
+        ]),
+        description: t('snapConnectionPermissionDescription', [
+          subjectName,
+          <Text
+            key="connectToDescription"
+            variant={TextVariant.inherit}
+            fontWeight={FontWeight.Medium}
+          >
+            {urlHost}
+          </Text>,
+        ]),
+        leftIcon: IconName.Connect,
+        weight: 3,
+      };
+    });
+  },
+  ///: END:ONLY_INCLUDE_IF
   [UNKNOWN_PERMISSION]: ({ t, permissionName }) => ({
     label: t('permission_unknown', [permissionName ?? 'undefined']),
     leftIcon: IconName.Question,

@@ -96,6 +96,12 @@ export default function SnapInstall({
     return 'confirm';
   };
 
+  console.log('===============================');
+  console.log('Request State:');
+  console.log('-------------------------------');
+  console.log(requestState);
+  console.log('===============================');
+
   return (
     <Box
       className="snap-install"
@@ -186,6 +192,7 @@ export default function SnapInstall({
                 snapId={targetSubjectMetadata.origin}
                 snapName={snapName}
                 permissions={requestState.permissions || {}}
+                connections={requestState.connections || {}}
               />
             </Box>
             {isScrollable && !isScrolledToBottom ? (

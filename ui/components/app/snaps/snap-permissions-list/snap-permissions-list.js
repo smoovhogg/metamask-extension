@@ -12,10 +12,15 @@ export default function SnapPermissionsList({
   snapId,
   snapName,
   permissions,
+  connections,
   showOptions,
 }) {
   const t = useI18nContext();
   const snapsMetadata = useSelector(getSnapsMetadata);
+
+  if (connections) {
+    permissions.connection_permission = connections;
+  }
 
   return (
     <Box className="snap-permissions-list">
@@ -47,5 +52,6 @@ SnapPermissionsList.propTypes = {
   snapId: PropTypes.string.isRequired,
   snapName: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
+  connections: PropTypes.object.isRequired,
   showOptions: PropTypes.bool,
 };
