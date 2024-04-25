@@ -696,6 +696,8 @@ export enum MetaMetricsEventName {
   SnapAccountTransactionFinalizeRedirectGoToSiteClicked = 'Snap Account Transaction Finalize Redirect "Go To Site" Clicked',
   SnapAccountTransactionFinalizeRedirectSnapUrlClicked = 'Snap Account Transaction Finalize Redirect "Snap URL" Clicked',
   SnapAccountTransactionFinalizeClosed = 'Snap Account Transaction Finalize Closed',
+  TokenAutoDetectionEnableModal = 'Token Autodetection Enabled from modal',
+  TokenAutoDetectionDisableModal = 'Token Autodetection Desabled from modal',
   ///: END:ONLY_INCLUDE_IF
 }
 

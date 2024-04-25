@@ -80,6 +80,7 @@ export function AssetPicker({ asset, onAssetChange }: AssetPickerProps) {
         asset={asset}
         onAssetChange={onAssetChange}
       />
+
       <Button
         className="asset-picker"
         display={Display.Flex}
