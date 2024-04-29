@@ -1597,8 +1597,7 @@
     },
     "@metamask/keyring-controller>@metamask/eth-hd-keyring": {
       "globals": {
-        "TextEncoder": true,
-        "console.log": true
+        "TextEncoder": true
       },
       "packages": {
         "@ethereumjs/tx>@ethereumjs/util": true,
