@@ -2,25 +2,38 @@ function setupAutoDetectMocking(
   server,
   testAddress = '0x5cfe73b6021e818b776b421b1c4db2474086a7e1',
 ) {
+  const nftCollection = {
+    name: 'ENS: Ethereum Name Service',
+    slug: 'Ethereum Name Service (ENS) domains are secure domain names for the decentralized world. ENS domains provide a way for users to map human readable names to blockchain and non-blockchain resources, like Ethereum addresses, IPFS hashes, or website URLs. ENS domains can be bought and sold on secondary markets.',
+    symbol: 'ens',
+    isSpam: false,
+    imageUrl: 'https://metamask.github.io/test-dapp/metamask-fox.svg',
+    isNsfw: false,
+  };
+
   const nfts = {
-    nfts: [
+    tokens: [
       {
-        identifier:
-          '86818186862637897590416402377730948900221574858925543698968316530334305793541',
-        collection: 'ens',
-        contract: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85',
-        token_standard: 'erc721',
-        name: 'peteryinusa.eth',
-        description: 'peteryinusa.eth, an ENS name.',
-        image_url: 'https://metamask.github.io/test-dapp/metamask-fox.svg',
-        metadata_url:
-          'https://metadata.ens.domains/mainnet/0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85/86818186862637897590416402377730948900221574858925543698968316530334305793541',
-        opensea_url:
-          'https://opensea.io/assets/ethereum/0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85/86818186862637897590416402377730948900221574858925543698968316530334305793541',
-        created_at: ' ',
-        updated_at: '2022-07-02T19:30:43.023572',
-        is_disabled: false,
-        is_nsfw: false,
+        token: {
+          chainId: 1,
+          contract: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85',
+          tokenId: '0',
+          kind: 'erc721',
+          name: 'peteryinusa.eth',
+          image: 'https://metamask.github.io/test-dapp/metamask-fox.svg',
+          metadata: {
+            imageOriginal: 'https://remilio.org/remilio/632.png',
+            imageMimeType: 'image/svg+xml',
+            tokenURI: 'https://remilio.org/remilio/json/632',
+          },
+          description:
+            'Ethereum Name Service (ENS) domains are secure domain names for the decentralized world. ENS domains provide a way for users to map human readable names to blockchain and non-blockchain resources, like Ethereum addresses, IPFS hashes, or website URLs. ENS domains can be bought and sold on secondary markets.',
+          rarityScore: 343.443,
+          rarityRank: 8872,
+          supply: '1',
+          isSpam: false,
+          collection: nftCollection,
+        },
       },
     ],
   };
@@ -34,35 +47,15 @@ function setupAutoDetectMocking(
     supply: 0,
   };
 
-  const nftCollection = {
-    collection: 'ens',
-    name: 'ENS: Ethereum Name Service',
-    description:
-      'Ethereum Name Service (ENS) domains are secure domain names for the decentralized world. ENS domains provide a way for users to map human readable names to blockchain and non-blockchain resources, like Ethereum addresses, IPFS hashes, or website URLs. ENS domains can be bought and sold on secondary markets.',
-    image_url: 'https://metamask.github.io/test-dapp/metamask-fox.svg',
-    banner_image_url: '',
-    owner: '0xfe89cc7abb2c4183683ab71653c4cdc9b02d44b7',
-    safelist_status: 'verified',
-    category: 'domain-names',
-    is_disabled: false,
-    is_nsfw: false,
-    trait_offers_enabled: false,
-    collection_offers_enabled: false,
-    opensea_url: 'https://opensea.io/collection/ens',
-    project_url: 'https://ens.domains',
-    wiki_url: '',
-    discord_url: '',
-    telegram_url: '',
-    twitter_username: 'ensdomains',
-    instagram_username: '',
-  };
-
   // Get assets for account
   server
-    .forGet(
-      `https://proxy.metafi.codefi.network/opensea/v1/api/v2/chain/ethereum/account/${testAddress}/nfts`,
-    )
-    .withQuery({ limit: 200, next: '' })
+    .forGet(`https://nft.api.cx.metamask.io/users/${testAddress}/tokens`)
+    .withQuery({
+      chainIds: '1',
+      limit: 50,
+      includeTopBid: 'true',
+      continuation: '',
+    })
     .thenCallback(() => {
       return {
         statusCode: 200,
