@@ -93,7 +93,7 @@ export const TokenListItem = ({
 
   const tokensMarketData = useSelector(getTokensMarketData);
 
-  const tokenAddress = address ? address.toLowerCase() : null;
+  const tokenAddress = address?.toLowerCase();
   const tokenPercentageChange =
     tokensMarketData?.[tokenAddress]?.pricePercentChange1d;
 
