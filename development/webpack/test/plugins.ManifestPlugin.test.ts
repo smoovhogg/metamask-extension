@@ -125,24 +125,16 @@ describe('ManifestPlugin', () => {
     browsers: readonly string[],
     files: { name: string }[],
   ) {
-    let assets: string[];
+    const assets: string[] = [];
     if (zip) {
-      assets = browsers
-        .map((browser) => [
-          ...files
-            .filter(({ name }) => name.endsWith('.map'))
-            .map(({ name }) => `${name}`),
-          `${browser}/extension.zip`,
-        ])
-        .flat();
-    } else {
-      assets = browsers
-        .map((browser) => [
-          `${browser}/manifest.json`,
-          ...files.map(({ name }) => `${browser}/${name}`),
-        ])
-        .flat();
+      browsers.forEach((browser) => {
+        assets.push(`${browser}/extension.zip`);
+      });
     }
+    browsers.forEach((browser) => {
+      assets.push(`${browser}/manifest.json`);
+      assets.push(...files.map(({ name }) => `${browser}/${name}`));
+    });
     return [...new Set(assets)]; // unique
   }
   function getValidateManifest(testCase: TestCase, baseManifest: Manifest) {
