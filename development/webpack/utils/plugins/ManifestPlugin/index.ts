@@ -121,14 +121,12 @@ export class ManifestPlugin<Z extends boolean> {
     assets: Assets, // an object of asset names to assets
     options: ManifestPluginOptions<true>,
   ): Promise<void> {
-    // TODO: this zips (and compresses) every file individually for each
+    // TODO(perf): this zips (and compresses) every file individually for each
     // browser. Can we share the compression and crc steps to save time?
     const { browsers, zipOptions } = options;
     const { excludeExtensions, level, outFilePath, mtime } = zipOptions;
     const compressionOptions: DeflateOptions = { level };
     const assetsArray = Object.entries(assets);
-    // we need to wait to delete assets until after we've zipped them all
-    const assetDeletions = new Set<string>();
 
     let filesProcessed = 0;
     const numAssetsPerBrowser = assetsArray.length + 1;
@@ -178,8 +176,6 @@ export class ManifestPlugin<Z extends boolean> {
           const extName = extname(assetName);
           if (excludeExtensions.includes(extName)) continue;
 
-          assetDeletions.add(assetName);
-
           addAssetToZip(
             // make a copy of the asset Buffer as Zipping will *consume* it,
             // which breaks things if we are compiling for multiple browsers.
@@ -209,9 +205,6 @@ export class ManifestPlugin<Z extends boolean> {
         development: true,
       });
     }
-
-    // delete the assets after we've zipped them all
-    assetDeletions.forEach((assetName) => compilation.deleteAsset(assetName));
   }
 
   /**
@@ -336,7 +329,14 @@ export class ManifestPlugin<Z extends boolean> {
       const options = this.options as ManifestPluginOptions<true>;
       compilation.hooks.processAssets.tapPromise(
         tapOptions,
-        async (assets: Assets) => this.zipAssets(compilation, assets, options),
+        async (assets: Assets) => {
+          await this.zipAssets(compilation, assets, options);
+          this.moveAssets(
+            compilation,
+            assets,
+            this.options as ManifestPluginOptions<false>,
+          );
+        },
       );
     } else {
       const options = this.options as ManifestPluginOptions<false>;
