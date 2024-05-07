@@ -1,10 +1,10 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { renderWithProvider } from '../../../../test/jest';
+import mockState from '../../../../test/data/mock-state.json';
 import PermissionCell from './permission-cell';
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
-import mockState from "../../../../test/data/mock-state.json";
 
 describe('Permission Cell', () => {
   const mockPermissionData = {
