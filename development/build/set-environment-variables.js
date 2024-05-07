@@ -128,7 +128,6 @@ function getInfuraProjectId({ buildType, variables, environment, testing }) {
   );
   /** @type {string|undefined} */
   const infuraProjectId = variables.get(infuraKeyReference);
-  console.log("***************************************", infuraKeyReference, typeof infuraProjectId, infuraProjectId.length);
   assert(
     typeof infuraProjectId === 'string' && infuraProjectId.length > 0,
     `Infura Project ID environmental variable "${infuraKeyReference}" is set improperly.`,
