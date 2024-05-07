@@ -553,12 +553,6 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
     permissionValue,
     subjectName,
   }) => {
-    console.log('-*-*-*-*-*-*-*-*-*-*-*-*-*-');
-    console.log(permissionValue);
-    console.log(subjectName);
-    console.log('-*-*-*-*-*-*-*-*-*-*-*-*-*-');
-    Object.keys(permissionValue);
-
     return Object.keys(permissionValue).map((connection) => {
       const urlHost = getURLHost(connection);
       return {
@@ -581,12 +575,12 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
             {urlHost}
           </Text>,
         ]),
-        leftIcon: IconName.Connect,
+        leftIcon: undefined, // Icon for connections is handled by PermissionCell
+        connection,
         weight: 3,
       };
     });
   },
-  ///: END:ONLY_INCLUDE_IF
   [UNKNOWN_PERMISSION]: ({ t, permissionName }) => ({
     label: t('permission_unknown', [permissionName ?? 'undefined']),
     leftIcon: IconName.Question,
