@@ -41,6 +41,7 @@ export default function SnapPermissionsList({
             dateApproved={permission?.permissionValue?.date}
             key={`${permission.permissionName}-${index}`}
             showOptions={showOptions}
+            connection={permission.connection}
           />
         );
       })}

@@ -356,16 +356,6 @@ export default class PermissionConnect extends Component {
       ///: END:ONLY_INCLUDE_IF
     } = this.state;
 
-    // TODO: Delete this (this is just for testing)
-    const snapInstallRequestState = {
-      ...requestState,
-      connections: {
-        'https://snaps.metamask.io': {},
-        'https://app.uniswap.org/': {},
-        // 'npm:filsnap': {},
-      },
-    };
-
     return (
       <div className="permissions-connect">
         {!hideTopBar && this.renderTopBar()}
@@ -466,7 +456,7 @@ export default class PermissionConnect extends Component {
               render={() => (
                 <SnapInstall
                   request={permissionsRequest || {}}
-                  requestState={snapInstallRequestState || {}}
+                  requestState={requestState || {}}
                   approveSnapInstall={(requestId) => {
                     approvePendingApproval(requestId, {
                       ...permissionsRequest,
