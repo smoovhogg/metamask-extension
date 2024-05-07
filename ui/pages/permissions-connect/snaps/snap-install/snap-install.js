@@ -96,12 +96,6 @@ export default function SnapInstall({
     return 'confirm';
   };
 
-  console.log('===============================');
-  console.log('Request State:');
-  console.log('-------------------------------');
-  console.log(requestState);
-  console.log('===============================');
-
   return (
     <Box
       className="snap-install"

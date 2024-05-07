@@ -917,10 +917,6 @@
   "connectedSites": {
     "message": "Connected sites"
   },
-  "snapConnectionPermissionDescription": {
-    "message": "Let $1 automatically connect to $2 without your approval.",
-    "description": "Used for Snap pre-approved connections. $1 is the Snap name, $2 is a website URL."
-  },
   "connectedSitesDescription": {
     "message": "$1 is connected to these sites. They can view your account address.",
     "description": "$1 is the account name"
@@ -4649,6 +4645,10 @@
   },
   "snapAccountsDescription": {
     "message": "Accounts controlled by third-party Snaps."
+  },
+  "snapConnectionPermissionDescription": {
+    "message": "Let $1 automatically connect to $2 without your approval.",
+    "description": "Used for Snap pre-approved connections. $1 is the Snap name, $2 is a website URL."
   },
   "snapConnectionWarning": {
     "message": "$1 wants to use $2",
