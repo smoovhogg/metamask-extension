@@ -16,7 +16,7 @@
 import { join } from 'node:path';
 import { spawn, type StdioOptions } from 'node:child_process';
 import parser from 'yargs-parser';
-import type { Child, PTY, Stdio, StdName } from './types';
+import type { Child, PTY, Stdio, StdName } from './types.ts';
 
 const rawArgv = process.argv.slice(2);
 
@@ -27,7 +27,7 @@ const args = parser(rawArgv, { alias, boolean: Object.keys(alias) }) as Args;
 if (args.cache === false || args.help === true || args.watch === true) {
   // there are no time savings to running the build in a child process if: the
   // cache is disabled, we need to output "help", or we're in watch mode.
-  import(join(__dirname, 'build.ts')).then(({ build }) => build());
+  require('./build.ts').build();
 } else {
   fork(process, join(__dirname, 'fork.mts'), rawArgv);
 }
