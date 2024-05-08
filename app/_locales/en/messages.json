@@ -394,10 +394,6 @@
     "message": "Give permission to access your $1?",
     "description": "$1 is the symbol of the token that are requesting to spend"
   },
-  "snapConnectTo": {
-    "message": "Connect to $1",
-    "description": "$1 is the website URL or a Snap name. Used for Snaps pre-approved connections."
-  },
   "allowWithdrawAndSpend": {
     "message": "Allow $1 to withdraw and spend up to the following amount:",
     "description": "The url of the site that requested permission to 'withdraw and spend'"
@@ -4649,6 +4645,10 @@
   },
   "snapAccountsDescription": {
     "message": "Accounts controlled by third-party Snaps."
+  },
+  "snapConnectTo": {
+    "message": "Connect to $1",
+    "description": "$1 is the website URL or a Snap name. Used for Snaps pre-approved connections."
   },
   "snapConnectionPermissionDescription": {
     "message": "Let $1 automatically connect to $2 without your approval.",
