@@ -17,16 +17,16 @@ export default function SnapPermissionsList({
 }) {
   const t = useI18nContext();
   const snapsMetadata = useSelector(getSnapsMetadata);
-
-  if (connections) {
-    permissions.connection_permission = connections;
-  }
+  const permissionsToShow = {
+    ...permissions,
+    connection_permission: connections ?? {},
+  };
 
   return (
     <Box className="snap-permissions-list">
       {getWeightedPermissions({
         t,
-        permissions,
+        permissions: permissionsToShow,
         subjectName: snapName,
         getSubjectName: getSnapName(snapsMetadata),
       }).map((permission, index) => {

@@ -556,7 +556,7 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
     return Object.keys(permissionValue).map((connection) => {
       const urlHost = getURLHost(connection);
       return {
-        label: t('connectTo', [
+        label: t('snapConnectTo', [
           <Text
             key="connectToMain"
             variant={TextVariant.inherit}
