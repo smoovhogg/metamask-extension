@@ -16,9 +16,9 @@ executors:
   node-linux-medium:
     machine:
       image: ubuntu-2204:2024.04.4
-    resource_class: medium
+    resource_class: large
     environment:
-      NODE_OPTIONS: --max_old_space_size=6144
+      NODE_OPTIONS: --max_old_space_size=8192
   node-browsers-medium-plus:
     docker:
       - image: cimg/node:20.11-browsers
