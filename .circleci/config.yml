@@ -13,6 +13,12 @@ executors:
     resource_class: medium
     environment:
       NODE_OPTIONS: --max_old_space_size=3072
+  node-linux-medium:
+    machine:
+      image: ubuntu-2204:2024.04.4
+    resource_class: medium
+    environment:
+      NODE_OPTIONS: --max_old_space_size=6144
   node-browsers-medium-plus:
     docker:
       - image: cimg/node:20.11-browsers
@@ -806,11 +812,19 @@ jobs:
             - builds-test
 
   prep-build-test-webpack:
-    executor: node-browsers-medium-plus
+    executor: node-linux-medium
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
+      - run:
+          name: Install Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_20.11.0 | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: activate yarn
+          command: corepack enable
       - run:
           name: Build extension for testing
           command: yarn build:test:webpack
