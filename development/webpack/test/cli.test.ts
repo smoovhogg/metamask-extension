@@ -12,13 +12,14 @@ describe('./utils/cli.ts', () => {
     progress: true,
     devtool: 'source-map',
     sentry: false,
-    test: true,
+    test: false,
     zip: false,
     minify: false,
     browser: ['chrome'],
     manifest_version: 2,
     type: 'main',
     lavamoat: false,
+    lockdown: false,
     snow: false,
     dryRun: false,
     stats: false,
@@ -26,15 +27,7 @@ describe('./utils/cli.ts', () => {
 
   it('should return defaults', () => {
     const { args, cacheKey, features } = parseArgv([], getBuildTypes());
-    // args has some single-letter aliases, added by yargs, but they aren't
-    // part of our official API (the type returned by `parseArgv`), so we ignore them here
-    for (const [key, value] of Object.entries(defaultArgs)) {
-      assert.deepStrictEqual(
-        args[key as keyof typeof args],
-        value,
-        `args.${key} should be ${value}`,
-      );
-    }
+    assert.deepStrictEqual(args, defaultArgs);
     assert.strictEqual(
       typeof cacheKey,
       'string',
