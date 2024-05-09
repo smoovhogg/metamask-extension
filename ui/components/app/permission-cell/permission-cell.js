@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { useSelector } from 'react-redux';
 import {
   AlignItems,
   Color,
@@ -14,7 +13,6 @@ import {
   BlockSize,
   FlexWrap,
   FlexDirection,
-  BackgroundColor,
 } from '../../../helpers/constants/design-system';
 import {
   AvatarIcon,
@@ -24,11 +22,8 @@ import {
   IconSize,
   Text,
   Box,
-  AvatarFaviconSize,
-  AvatarFavicon,
 } from '../../component-library';
 import Tooltip from '../../ui/tooltip';
-import { getTargetSubjectMetadata } from '../../../selectors';
 import { PermissionCellOptions } from './permission-cell-options';
 import { PermissionCellStatus } from './permission-cell-status';
 
@@ -44,12 +39,7 @@ const PermissionCell = ({
   showOptions,
   hideStatus,
   accounts,
-  connection,
 }) => {
-  const targetSubjectMetadata = useSelector((state) =>
-    getTargetSubjectMetadata(state, connection),
-  );
-
   const infoIcon = IconName.Info;
   let infoIconColor = IconColor.iconMuted;
   let iconColor = IconColor.primaryDefault;
@@ -74,21 +64,6 @@ const PermissionCell = ({
   let permissionIcon = avatarIcon;
   if (typeof avatarIcon !== 'string' && avatarIcon?.props?.iconName) {
     permissionIcon = avatarIcon.props.iconName;
-  }
-
-  if (!permissionIcon && connection) {
-    const faviconUrl = targetSubjectMetadata?.iconUrl;
-
-    permissionIcon = faviconUrl ? (
-      <AvatarFavicon
-        backgroundColor={BackgroundColor.backgroundAlternative}
-        size={AvatarFaviconSize.Lg}
-        src={faviconUrl}
-        name={connection}
-      />
-    ) : (
-      IconName.Connect
-    );
   }
 
   return (
@@ -185,7 +160,6 @@ PermissionCell.propTypes = {
   showOptions: PropTypes.bool,
   hideStatus: PropTypes.bool,
   accounts: PropTypes.array,
-  connection: PropTypes.string,
 };
 
 export default PermissionCell;

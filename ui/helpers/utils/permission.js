@@ -577,6 +577,7 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
         ]),
         leftIcon: undefined, // Icon for connections is handled by PermissionCell
         connection,
+        subjectName,
         weight: 3,
       };
     });
