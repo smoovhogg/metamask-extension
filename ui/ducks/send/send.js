@@ -2282,7 +2282,7 @@ export function updateSendQuote(
     const state = getState();
 
     const draftTransaction =
-      state[name].draftTransactions[state[name].currentTransactionUUID];
+      state[name].draftTransactions[state[name].currentTransactionUUID] ?? {};
 
     const isSwapAndSend =
       draftTransaction?.sendAsset?.details?.address !==

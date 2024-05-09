@@ -108,6 +108,7 @@ export function AssetPicker({
         }
       />
       <Button
+        data-testid="asset-picker-button"
         className="asset-picker"
         display={Display.Flex}
         alignItems={AlignItems.center}
