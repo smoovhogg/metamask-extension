@@ -326,6 +326,7 @@ class Driver {
       until.elementLocated(locator),
       this.timeout,
     );
+    await this.driver.wait(until.elementIsVisible(element), this.timeout); // Trying waiting before wrapElementWithAPI call
     return wrapElementWithAPI(element, this);
   }
 
