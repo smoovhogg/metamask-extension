@@ -86,11 +86,13 @@ export function getVariables(args: Args, buildTypes: Build) {
   });
 
   // variables that are used in the webpack build's entry points
-  variables.set('ENABLE_SENTRY', sentry);
-  variables.set('ENABLE_SNOW', snow);
-  variables.set('ENABLE_LAVAMOAT', lavamoat);
+  // runtime code checks for the _string_ `"true"`, so we cast to string here.
+  variables.set('ENABLE_SENTRY', sentry.toString());
+  variables.set('ENABLE_SNOW', snow.toString());
+  variables.set('ENABLE_LAVAMOAT', lavamoat.toString());
 
-  // convert the variables to a format that can be used in the webpack build
+  // convert the variables to a format that can be used by SWC, which expects
+  // values be JSON stringified, as it JSON.parses them internally.
   const safeVariables: Record<string, string> = {};
   variables.forEach((value, key) => {
     if (value === null || value === undefined) return;
