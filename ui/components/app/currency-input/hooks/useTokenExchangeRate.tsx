@@ -17,7 +17,7 @@ export default function useTokenExchangeRate(
   const selectedNativeConversionRate = useSelector(getConversionRate);
   const nativeConversionRate = new Numeric(selectedNativeConversionRate, 10);
 
-  const contractExchangeRates = useSelector(
+  const contractExchangeRates: Record<string, number> = useSelector(
     getTokenExchangeRates,
     shallowEqual,
   );
