@@ -251,8 +251,6 @@
     "preventPollingOnNetworkRestart": false
   },
   "TokenRatesController": {
-    "contractExchangeRates": "object",
-    "contractExchangeRatesByChainId": "object",
     "marketData": "object"
   },
   "TokensController": {
