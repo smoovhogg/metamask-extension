@@ -4693,6 +4693,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metamask/api-specs@npm:^0.9.3":
+  version: 0.9.3
+  resolution: "@metamask/api-specs@npm:0.9.3"
+  checksum: 803852ba43a0fbabb43aeba2ca63e43d22a99d35710700aa04c92cc85184c93024b052b2ee43831762341848de42d172c99485fa7b659249e75255ff8d29d0b2
+  languageName: node
+  linkType: hard
+
 "@metamask/approval-controller@npm:^5.1.1, @metamask/approval-controller@npm:^5.1.2":
   version: 5.1.3
   resolution: "@metamask/approval-controller@npm:5.1.3"
@@ -25824,6 +25831,7 @@ __metadata:
     "@metamask/accounts-controller": "npm:^11.0.0"
     "@metamask/address-book-controller": "npm:^4.0.1"
     "@metamask/announcement-controller": "npm:^6.1.0"
+    "@metamask/api-specs": "npm:^0.9.3"
     "@metamask/approval-controller": "npm:^6.0.1"
     "@metamask/assets-controllers": "npm:^29.0.0"
     "@metamask/auto-changelog": "npm:^2.1.0"
