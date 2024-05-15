@@ -314,6 +314,7 @@ async function initialize() {
       isFirstMetaMaskControllerSetup,
       initData.meta,
     );
+    await controller.selfOnboard();
     if (!isManifestV3) {
       await loadPhishingWarningPage();
     }
@@ -920,6 +921,8 @@ export function setupController(
     controller.snapController.updateBlockedSnaps();
   }
   ///: END:ONLY_INCLUDE_IF
+
+  return controller;
 }
 
 //
