@@ -12,9 +12,6 @@ const state = {
     state: 'CLOSED',
     networkName: '',
   },
-  unconnectedAccount: {
-    state: 'CLOSED',
-  },
   activeTab: {
     id: 113,
     title: 'E2E Test Dapp',
@@ -1287,7 +1284,6 @@ const state = {
     },
     ticker: 'ETH',
     alertEnabledness: {
-      unconnectedAccount: true,
       web3ShimUsage: true,
     },
     unconnectedAccountAlertShownOrigins: {},
