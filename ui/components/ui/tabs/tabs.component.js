@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { useDispatch } from 'react-redux';
 import Box from '../box';
 import {
   BackgroundColor,
   DISPLAY,
   JustifyContent,
 } from '../../../helpers/constants/design-system';
+import { useThrottle } from '../../../hooks/useThrottle';
+import { detectNfts } from '../../../store/actions';
 
 const Tabs = ({
   defaultActiveTabKey,
@@ -31,15 +34,21 @@ const Tabs = ({
   const _findChildByKey = (tabKey) => {
     return _getValidChildren().findIndex((c) => c?.props.tabKey === tabKey);
   };
+  const dispatch = useDispatch();
 
   const [activeTabIndex, setActiveTabIndex] = useState(() =>
     Math.max(_findChildByKey(defaultActiveTabKey), 0),
   );
 
+  const invokeDetectNfts = useThrottle(() => dispatch(detectNfts()), 60000);
+
   const handleTabClick = (tabIndex, tabKey) => {
     if (tabIndex !== activeTabIndex) {
       setActiveTabIndex(tabIndex);
       onTabClick?.(tabKey);
+    }
+    if (tabKey === 'nfts') {
+      invokeDetectNfts();
     }
   };
 

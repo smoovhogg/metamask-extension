@@ -3460,9 +3460,13 @@ export function detectNfts(): ThunkAction<
   return async (dispatch: MetaMaskReduxDispatch) => {
     dispatch(showLoadingIndication());
     log.debug(`background.detectNfts`);
-    await submitRequestToBackground('detectNfts');
-    dispatch(hideLoadingIndication());
-    await forceUpdateMetamaskState(dispatch);
+    try {
+      await submitRequestToBackground('detectNfts');
+      dispatch(hideLoadingIndication());
+      await forceUpdateMetamaskState(dispatch);
+    } finally {
+      dispatch(hideLoadingIndication());
+    }
   };
 }
 
