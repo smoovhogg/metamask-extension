@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { isEqual, uniqBy } from 'lodash';
 import { Tab, Tabs } from '../../../ui/tabs';
 import NftsItems from '../../../app/nfts-items/nfts-items';
@@ -39,22 +39,24 @@ import ZENDESK_URLS from '../../../../helpers/constants/zendesk-url';
 import {
   getCurrentChainId,
   getCurrentCurrency,
-  getNativeCurrencyImage,
-  getSelectedAccountCachedBalance,
   getSelectedInternalAccount,
   getShouldHideZeroBalanceTokens,
+  getSwapsDefaultToken,
   getTokenExchangeRates,
   getTokenList,
 } from '../../../../selectors';
 import {
   getConversionRate,
-  getNativeCurrency,
   getTokens,
 } from '../../../../ducks/metamask/metamask';
 import { useTokenTracker } from '../../../../hooks/useTokenTracker';
-import { getTopAssets } from '../../../../ducks/swaps/swaps';
-import { getRenderableTokenData } from '../../../../hooks/useTokensToSearch';
+import { getSwapsTokens, getTopAssets } from '../../../../ducks/swaps/swaps';
+import {
+  getRenderableTokenData,
+  useTokensToSearch,
+} from '../../../../hooks/useTokensToSearch';
 import { useEqualityCheck } from '../../../../hooks/useEqualityCheck';
+import { TokenBucketPriority } from '../../../../../shared/constants/swaps';
 import AssetList from './AssetList';
 import { Asset, Collection, Token } from './types';
 
@@ -122,10 +124,6 @@ export function AssetPickerModal({
 
   const chainId = useSelector(getCurrentChainId);
 
-  const nativeCurrencyImage = useSelector(getNativeCurrencyImage);
-  const nativeCurrency = useSelector(getNativeCurrency);
-  const balanceValue = useSelector(getSelectedAccountCachedBalance);
-
   const tokenConversionRates = useSelector(getTokenExchangeRates, isEqual);
   const conversionRate = useSelector(getConversionRate);
   const currentCurrency = useSelector(getCurrentCurrency);
@@ -141,71 +139,32 @@ export function AssetPickerModal({
     hideZeroBalanceTokens: Boolean(shouldHideZeroBalanceTokens),
   });
 
-  // Swaps token list
+  // Static token list or remote token list used for fallback values
   const tokenList = useSelector(getTokenList) as Record<string, Token>;
   const topTokens = useSelector(getTopAssets, isEqual);
 
   const usersTokens = uniqBy([...tokensWithBalances, ...tokens], 'address');
 
-  const memoizedUsersTokens = useEqualityCheck(usersTokens);
+  const tokensToSearch = useTokensToSearch({
+    usersTokens,
+    topTokens,
+    shuffledTokensList: Object.values(tokenList),
+    tokenBucketPriority: TokenBucketPriority.owned,
+  });
 
   const filteredTokenList = useMemo(() => {
-    const nativeToken = {
-      address: null,
-      symbol: nativeCurrency,
-      decimals: 18,
-      image: nativeCurrencyImage,
-      balance: balanceValue,
-      type: AssetType.native,
-    };
-
     const filteredTokens: Token[] = [];
-    // undefined would be the native token address
-    const filteredTokensAddresses = new Set<string | undefined>();
 
-    function* tokenGenerator() {
-      yield nativeToken;
-
-      for (const token of memoizedUsersTokens) {
-        yield token;
-      }
-
-      // topTokens should already be sorted by popularity
-      for (const address of Object.keys(topTokens)) {
-        const token = tokenList?.[address];
-        if (token) {
-          yield token;
-        }
-      }
-
-      for (const token of Object.values(tokenList)) {
+    // TODO can be removed
+    function* tokenGenerator(): Generator<Token, void, void> {
+      for (const token of tokensToSearch) {
         yield token;
       }
     }
 
-    let token: Token;
-    for (token of tokenGenerator()) {
-      if (
-        token.symbol?.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !filteredTokensAddresses.has(token.address?.toLowerCase())
-      ) {
-        filteredTokensAddresses.add(token.address?.toLowerCase());
-        filteredTokens.push(
-          getRenderableTokenData(
-            token.address
-              ? {
-                  ...token,
-                  ...tokenList[token.address.toLowerCase()],
-                  type: AssetType.token,
-                }
-              : token,
-            tokenConversionRates,
-            conversionRate,
-            currentCurrency,
-            chainId,
-            tokenList,
-          ),
-        );
+    for (const token of tokenGenerator()) {
+      if (token.symbol?.toLowerCase().includes(searchQuery.toLowerCase())) {
+        filteredTokens.push(token);
       }
 
       if (filteredTokens.length > MAX_UNOWNED_TOKENS_RENDERED) {
@@ -214,19 +173,7 @@ export function AssetPickerModal({
     }
 
     return filteredTokens;
-  }, [
-    memoizedUsersTokens,
-    topTokens,
-    searchQuery,
-    nativeCurrency,
-    nativeCurrencyImage,
-    balanceValue,
-    tokenConversionRates,
-    conversionRate,
-    currentCurrency,
-    chainId,
-    tokenList,
-  ]);
+  }, [tokensToSearch, searchQuery]);
 
   const Search = useCallback(
     () => (

@@ -115,6 +115,7 @@ import {
 } from '../helpers/constants/survey';
 import { SUPPORTED_CHAIN_IDS } from '../../app/scripts/lib/ppom/ppom-middleware';
 import { ENVIRONMENT_TYPE_POPUP } from '../../shared/constants/app';
+import { AssetType } from '../../shared/constants/transaction';
 import {
   getCurrentNetworkTransactions,
   getUnapprovedTransactions,
@@ -1240,6 +1241,7 @@ export function getSwapsDefaultToken(state) {
       numberOfDecimals: 4,
       toDenomination: 'ETH',
     }),
+    type: AssetType.native,
   };
 }
 
