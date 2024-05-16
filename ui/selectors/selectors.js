@@ -971,7 +971,7 @@ export function getTargetSubjectMetadata(state, origin) {
  * @returns Key:value object containing metadata attached to each subject key.
  */
 export function getMultipleTargetsSubjectMetadata(state, origins) {
-  return Object.keys(origins).reduce((originsMetadata, origin) => {
+  return Object.keys(origins ?? {}).reduce((originsMetadata, origin) => {
     originsMetadata[origin] = getTargetSubjectMetadata(state, origin);
     return originsMetadata;
   }, {});

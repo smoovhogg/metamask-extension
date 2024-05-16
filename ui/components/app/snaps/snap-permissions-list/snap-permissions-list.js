@@ -21,6 +21,7 @@ import { getSnapName } from '../../../../helpers/utils/util';
 import {
   BackgroundColor,
   FontWeight,
+  TextColor,
   TextVariant,
 } from '../../../../helpers/constants/design-system';
 
@@ -48,22 +49,31 @@ export default function SnapPermissionsList({
       let title = permission.label;
       let { description } = permission;
 
-      if (targetSubjectMetadata.subjectType === SubjectType.Snap) {
+      if (targetSubjectMetadata?.subjectType === SubjectType.Snap) {
         title = t('snapConnectTo', [
           <Text
             key="connectToMain"
-            variant={TextVariant.inherit}
             fontWeight={FontWeight.Medium}
+            variant={TextVariant.inherit}
+            color={TextColor.inherit}
           >
             {targetSubjectMetadata.name}
           </Text>,
         ]);
         description = t('snapConnectionPermissionDescription', [
-          permission.subjectName,
           <Text
-            key="connectToDescription"
-            variant={TextVariant.inherit}
+            key={`permissionSubject_${permission.subjectName}`}
             fontWeight={FontWeight.Medium}
+            variant={TextVariant.inherit}
+            color={TextColor.inherit}
+          >
+            {permission.subjectName}
+          </Text>,
+          <Text
+            key={`permissionSubjectDescription_${targetSubjectMetadata.name}`}
+            fontWeight={FontWeight.Medium}
+            variant={TextVariant.inherit}
+            color={TextColor.inherit}
           >
             {targetSubjectMetadata.name}
           </Text>,
@@ -134,6 +144,6 @@ SnapPermissionsList.propTypes = {
   snapId: PropTypes.string.isRequired,
   snapName: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
-  connections: PropTypes.object.isRequired,
+  connections: PropTypes.object,
   showOptions: PropTypes.bool,
 };

@@ -554,25 +554,31 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
     subjectName,
   }) => {
     return Object.keys(permissionValue).map((connection) => {
-      const urlHost = getURLHost(connection);
+      let urlHost = getURLHost(connection);
+      if (!urlHost) {
+        urlHost = connection;
+      }
+
       return {
         label: t('snapConnectTo', [
           <Text
             key="connectToMain"
-            variant={TextVariant.inherit}
             fontWeight={FontWeight.Medium}
+            variant={TextVariant.inherit}
+            color={TextColor.inherit}
           >
-            {urlHost}
+            {urlHost ?? connection}
           </Text>,
         ]),
         description: t('snapConnectionPermissionDescription', [
-          subjectName,
+          getSnapNameComponent(subjectName),
           <Text
             key="connectToDescription"
-            variant={TextVariant.inherit}
             fontWeight={FontWeight.Medium}
+            variant={TextVariant.inherit}
+            color={TextColor.inherit}
           >
-            {urlHost}
+            {urlHost ?? connection}
           </Text>,
         ]),
         leftIcon: undefined, // Icon for connections is handled by PermissionCell
