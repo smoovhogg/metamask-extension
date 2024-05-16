@@ -3491,9 +3491,6 @@
   "snaps": {
     "message": "Snaps"
   },
-  "snapsInvalidUIError": {
-    "message": "snapに指定されたUIが無効です。"
-  },
   "snapsNoInsight": {
     "message": "snapがインサイトを返しませんでした"
   },
