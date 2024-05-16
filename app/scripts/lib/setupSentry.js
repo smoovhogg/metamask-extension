@@ -390,7 +390,6 @@ export const SENTRY_UI_STATE = {
     switchedNetworkDetails: false,
     switchedNetworkNeverShowMessage: false,
   },
-  unconnectedAccount: true,
 };
 
 /**

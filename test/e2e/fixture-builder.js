@@ -44,7 +44,6 @@ function defaultFixture(inputChainId = CHAIN_IDS.LOCALHOST) {
       },
       AlertController: {
         alertEnabledness: {
-          unconnectedAccount: true,
           web3ShimUsage: true,
         },
         unconnectedAccountAlertShownOrigins: {},
