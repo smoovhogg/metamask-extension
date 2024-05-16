@@ -2873,6 +2873,7 @@ export default class MetamaskController extends EventEmitter {
       backup,
       approvalController,
       phishingController,
+      metaMetricsDataDeletionController,
     } = this;
 
     return {
@@ -3598,12 +3599,12 @@ export default class MetamaskController extends EventEmitter {
       setName: this.nameController.setName.bind(this.nameController),
       // metrics data deleteion
       createMetaMetricsDataDeletionTask:
-        this.metaMetricsDataDeletionController.createMetaMetricsDataDeletionTask.bind(
-          this.metaMetricsDataDeletionController,
+        metaMetricsDataDeletionController.createMetaMetricsDataDeletionTask.bind(
+          metaMetricsDataDeletionController,
         ),
       checkDataDeletionTaskStatus:
-        this.metaMetricsDataDeletionController.checkDataDeletionTaskStatus.bind(
-          this.metaMetricsDataDeletionController,
+        metaMetricsDataDeletionController.checkDataDeletionTaskStatus.bind(
+          metaMetricsDataDeletionController,
         ),
     };
   }
