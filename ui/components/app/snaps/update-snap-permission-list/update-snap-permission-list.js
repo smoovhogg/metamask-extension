@@ -3,21 +3,31 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getWeightedPermissions } from '../../../../helpers/utils/permission';
 import { useI18nContext } from '../../../../hooks/useI18nContext';
-import PermissionCell from '../../permission-cell';
 import { Box } from '../../../component-library';
-import { getSnapMetadata, getSnapsMetadata } from '../../../../selectors';
+import {
+  getMultipleTargetsSubjectMetadata,
+  getSnapMetadata,
+  getSnapsMetadata,
+} from '../../../../selectors';
 import { getSnapName } from '../../../../helpers/utils/util';
+import SnapPermissionCellDisplay from '../snap-permission-cell-display';
 
 export default function UpdateSnapPermissionList({
   approvedPermissions,
   revokedPermissions,
   newPermissions,
   targetSubjectMetadata,
+  connections,
 }) {
   const t = useI18nContext();
+  const snapId = targetSubjectMetadata.origin;
 
   const { name: snapName } = useSelector((state) =>
     getSnapMetadata(state, targetSubjectMetadata.origin),
+  );
+
+  const targetSubjectsMetadata = useSelector((state) =>
+    getMultipleTargetsSubjectMetadata(state, connections),
   );
 
   const snapsMetadata = useSelector(getSnapsMetadata);
@@ -31,14 +41,12 @@ export default function UpdateSnapPermissionList({
         subjectName: snapName,
         getSubjectName: snapsNameGetter,
       }).map((permission, index) => (
-        <PermissionCell
-          permissionName={permission.permissionName}
-          title={permission.label}
-          description={permission.description}
-          weight={permission.weight}
-          avatarIcon={permission.leftIcon}
-          dateApproved={permission?.permissionValue?.date}
-          key={`${permission.permissionName}-${index}`}
+        <SnapPermissionCellDisplay
+          snapId={snapId}
+          subjectMetadata={targetSubjectsMetadata[permission.connection]}
+          permission={permission}
+          index={index}
+          key={`permissionCellDisplay_${snapId}_${index}`}
         />
       ))}
       {getWeightedPermissions({
@@ -47,14 +55,12 @@ export default function UpdateSnapPermissionList({
         subjectName: snapName,
         getSubjectName: snapsNameGetter,
       }).map((permission, index) => (
-        <PermissionCell
-          permissionName={permission.permissionName}
-          title={permission.label}
-          description={permission.description}
-          weight={permission.weight}
-          avatarIcon={permission.leftIcon}
-          dateApproved={permission?.permissionValue?.date}
-          key={`${permission.permissionName}-${index}`}
+        <SnapPermissionCellDisplay
+          snapId={snapId}
+          subjectMetadata={targetSubjectsMetadata[permission.connection]}
+          permission={permission}
+          index={index}
+          key={`permissionCellDisplay_${snapId}_${index}`}
           revoked
         />
       ))}
@@ -64,14 +70,12 @@ export default function UpdateSnapPermissionList({
         subjectName: snapName,
         getSubjectName: snapsNameGetter,
       }).map((permission, index) => (
-        <PermissionCell
-          permissionName={permission.permissionName}
-          title={permission.label}
-          description={permission.description}
-          weight={permission.weight}
-          avatarIcon={permission.leftIcon}
-          dateApproved={permission?.permissionValue?.date}
-          key={`${permission.permissionName}-${index}`}
+        <SnapPermissionCellDisplay
+          snapId={snapId}
+          subjectMetadata={targetSubjectsMetadata[permission.connection]}
+          permission={permission}
+          index={index}
+          key={`permissionCellDisplay_${snapId}_${index}`}
         />
       ))}
     </Box>
@@ -92,4 +96,8 @@ UpdateSnapPermissionList.propTypes = {
    */
   newPermissions: PropTypes.object.isRequired,
   targetSubjectMetadata: PropTypes.object.isRequired,
+  /**
+   * Pre-approved connections used by Snaps for Snaps or websites.
+   */
+  connections: PropTypes.object,
 };

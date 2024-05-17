@@ -187,6 +187,7 @@ export default function SnapUpdate({
                 revokedPermissions={revokedPermissions}
                 newPermissions={newPermissions}
                 targetSubjectMetadata={targetSubjectMetadata}
+                connections={requestState.connections || {}}
               />
             </Box>
             {isScrollable && !isScrolledToBottom ? (

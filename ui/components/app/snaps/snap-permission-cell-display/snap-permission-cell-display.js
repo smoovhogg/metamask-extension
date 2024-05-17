@@ -28,6 +28,7 @@ export default function SnapPermissionCellDisplay({
   permission,
   subjectMetadata,
   index,
+  revoked,
 }) {
   const t = useI18nContext();
   let { label, description, leftIcon } = permission;
@@ -102,6 +103,7 @@ export default function SnapPermissionCellDisplay({
       dateApproved={permission?.permissionValue?.date}
       key={`${permission.permissionName}-${index}`}
       showOptions={showOptions}
+      revoked={revoked}
     />
   );
 }
@@ -112,4 +114,5 @@ SnapPermissionCellDisplay.propTypes = {
   permission: PropTypes.object.isRequired,
   subjectMetadata: PropTypes.object,
   index: PropTypes.number,
+  revoked: PropTypes.bool,
 };
