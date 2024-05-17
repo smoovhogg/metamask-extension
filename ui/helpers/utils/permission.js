@@ -554,9 +554,10 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
     subjectName,
   }) => {
     return Object.keys(permissionValue).map((connection) => {
-      let urlHost = getURLHost(connection);
-      if (!urlHost) {
-        urlHost = connection;
+      let connectionName = getURLHost(connection);
+      // In case the connection is a Snap
+      if (!connectionName) {
+        connectionName = connection.replace('npm:', '');
       }
 
       return {
@@ -567,7 +568,7 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
             variant={TextVariant.inherit}
             color={TextColor.inherit}
           >
-            {urlHost ?? connection}
+            {connectionName}
           </Text>,
         ]),
         description: t('snapConnectionPermissionDescription', [
@@ -578,11 +579,12 @@ export const PERMISSION_DESCRIPTIONS = deepFreeze({
             variant={TextVariant.inherit}
             color={TextColor.inherit}
           >
-            {urlHost ?? connection}
+            {connectionName}
           </Text>,
         ]),
         leftIcon: undefined, // Icon for connections is handled by PermissionCell
         connection,
+        connectionName,
         subjectName,
         weight: 3,
       };

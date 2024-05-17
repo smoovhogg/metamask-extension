@@ -6,10 +6,11 @@ import { getWeightedPermissions } from '../../../../helpers/utils/permission';
 import { useI18nContext } from '../../../../hooks/useI18nContext';
 import PermissionCell from '../../permission-cell';
 import {
+  AvatarBase,
+  AvatarBaseSize,
   AvatarFavicon,
   AvatarFaviconSize,
   Box,
-  IconName,
   IconSize,
   Text,
 } from '../../../component-library';
@@ -17,10 +18,16 @@ import {
   getMultipleTargetsSubjectMetadata,
   getSnapsMetadata,
 } from '../../../../selectors';
-import { getSnapName } from '../../../../helpers/utils/util';
 import {
+  getAvatarFallbackLetter,
+  getSnapName,
+} from '../../../../helpers/utils/util';
+import {
+  AlignItems,
   BackgroundColor,
+  Display,
   FontWeight,
+  JustifyContent,
   TextColor,
   TextVariant,
 } from '../../../../helpers/constants/design-system';
@@ -93,7 +100,17 @@ export default function SnapPermissionsList({
           name={permission.connection}
         />
       ) : (
-        IconName.Connect
+        <AvatarBase
+          size={AvatarBaseSize.Md}
+          display={Display.Flex}
+          alignItems={AlignItems.center}
+          justifyContent={JustifyContent.center}
+          color={TextColor.textAlternative}
+          style={{ borderWidth: '0px' }}
+          backgroundColor={BackgroundColor.backgroundAlternative}
+        >
+          {getAvatarFallbackLetter(permission.connectionName)}
+        </AvatarBase>
       );
 
       return (
