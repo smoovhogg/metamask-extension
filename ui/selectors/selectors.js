@@ -964,22 +964,6 @@ export function getTargetSubjectMetadata(state, origin) {
 
 ///: BEGIN:ONLY_INCLUDE_IF(snaps)
 /**
- * Retrieve metadata for multiple subjects (origins).
- *
- * @param state - Redux state object.
- * @param origins - Object containing keys that represent subjects.
- * @returns Key:value object containing metadata attached to each subject key.
- */
-export function getMultipleTargetsSubjectMetadata(state, origins) {
-  return Object.keys(origins ?? {}).reduce((originsMetadata, origin) => {
-    originsMetadata[origin] = getTargetSubjectMetadata(state, origin);
-    return originsMetadata;
-  }, {});
-}
-///: END:ONLY_INCLUDE_IF
-
-///: BEGIN:ONLY_INCLUDE_IF(snaps)
-/**
  * Input selector for reusing the same state object.
  * Used in memoized selectors created with createSelector
  * when raw state is needed to be passed to other selectors
@@ -1171,6 +1155,34 @@ export const getMemoizedInterfaceContent = createDeepEqualSelector(
   (content) => content,
 );
 
+///: END:ONLY_INCLUDE_IF
+
+///: BEGIN:ONLY_INCLUDE_IF(snaps)
+/**
+ * Input selector providing a way to pass the origins as an argument.
+ *
+ * @param _state - Redux state object.
+ * @param origins - Object containing origins.
+ * @returns object - Object with keys that can be used as input selector.
+ */
+const selectOrigins = (_state, origins) => origins;
+
+/**
+ * Retrieve metadata for multiple subjects (origins).
+ *
+ * @param state - Redux state object.
+ * @param origins - Object containing keys that represent subject's identification.
+ * @returns Key:value object containing metadata attached to each subject key.
+ */
+export const getMultipleTargetsSubjectMetadata = createSelector(
+  [rawStateSelector, selectOrigins],
+  (state, origins) => {
+    return Object.keys(origins ?? {}).reduce((originsMetadata, origin) => {
+      originsMetadata[origin] = getTargetSubjectMetadata(state, origin);
+      return originsMetadata;
+    }, {});
+  },
+);
 ///: END:ONLY_INCLUDE_IF
 
 export function getRpcPrefsForCurrentProvider(state) {
